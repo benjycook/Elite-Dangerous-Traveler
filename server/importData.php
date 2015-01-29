@@ -14,6 +14,7 @@
 	        if (!$result) {
 	            //print_r(new Exception("mysql error " . mysql_errno() . ": " . mysql_error() . "\nOn query: " . $query));
 	        }
+	       // print_r($result."  ".$query."\n");
 	        return $result;
 	    }
 	}
@@ -61,12 +62,12 @@
         function addListing($listing) {
             $query = 'insert into stations_listings set ' .
                    'id = "'.mysql_real_escape_string($listing["id"]).'", ' .
-                   'station_id = "'.mysql_real_escape_string($listing["name"]).'", ' .
-                   'commodity_id = "'.mysql_real_escape_string($listing["system_id"]).'", ' .
-                   'supply = "'.mysql_real_escape_string($listing["has_blackmarket"]).'", ' .
-                   'buy_price = "'.mysql_real_escape_string($listing["max_landing_pad_size"]).'", ' .
-                   'sell_price = "'.mysql_real_escape_string($listing["max_landing_pad_size"]).'", ' .   
-                   'collected_at = "'.mysql_real_escape_string($listing["distance_to_star"]).'"';
+                   'station_id = "'.mysql_real_escape_string($listing["station_id"]).'", ' .
+                   'commodity_id = "'.mysql_real_escape_string($listing["commodity_id"]).'", ' .
+                   'supply = "'.mysql_real_escape_string($listing["supply"]).'", ' .
+                   'buy_price = "'.mysql_real_escape_string($listing["buy_price"]).'", ' .
+                   'sell_price = "'.mysql_real_escape_string($listing["sell_price"]).'", ' .   
+                   'collected_at = "'.mysql_real_escape_string($listing["collected_at"]).'"';
             $res = dao::query($query);
 	}
 	
@@ -100,16 +101,24 @@
 		$stations = json_decode($stationsStr,true);
                 foreach($stations as $station) {
                     addStation($station);
-                    foreach($stations["listings"] as $listing) {
+                    foreach($station["listings"] as $listing) {
                         addListing($listing);
                     }
                 }
 		//print_r($stations[0]);
 	}
 	
-	ini_set('memory_limit', '2048M');
+	function deleteOldData() {
+		dao::query("delete from commodities");
+		dao::query("delete from commodities_category");
+		dao::query("delete from stations_listing");
+		dao::query("delete from stations");
+		dao::query("delete from systems");
+	}
 	
+	ini_set('memory_limit', '2048M');
+		deleteOldData();
         importCommodities();
-        //importSystems();
-	//importStations();
+        importSystems();
+	importStations();
 ?>
