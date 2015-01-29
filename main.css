@@ -1,0 +1,32 @@
+#sidebarView {
+    float: left;
+
+    border: 1px solid black;
+    width: 30%;
+    height: 100%;
+    font-family: sans-serif;
+    font-size: 1em;
+    padding: 10px;
+    text-align: center;
+}
+
+#dataView {
+    float: right;
+    
+    width: 69%;
+    border: 1px solid;
+}
+
+.ui-table-size {
+    display:none !important;
+}
+
+.block {
+
+}
+
+.coord {
+
+}
+
+.coordsbox {}

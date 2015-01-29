@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="lib/css/clean.css">
+<link rel="stylesheet" href="main.css">
+<script src="lib/js/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="main.js"></script>
+<script src="lib/js/jquery.columns.min.js"></script>
+<script src="lib/js/mustache.min.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+</head>
+<body>
+<div id="sidebarView">
+  <p class="block">I want to </p>
+  <select id="sortBy" class="form-control">
+    <option value="see_prices">See Prices</option>
+    <option value="buy">Buy</option>
+    <option value="sell">Sell</option>
+   </select>
+   <p class="block">for</p>
+  <select multiple class="form-control" id="commodities">
+    <option value="chemicals">Chemicals</option>
+    <option value="dynamite">Dynamite</option>
+  </select>
+  <p class="block">near</p>
+  <input id="location" placeholder="System/Station" class="form-control"><br>
+  <div style="float:left">Coords:</div><div class="coordsbox">
+  X: <input id="locationX" class="form-control coord">
+  Y: <input id="locationY" class="form-control coord">
+  Z: <input id="locationZ" class="form-control coord">
+  </div>
+</div>
+<div id="dataView">
+  <div id="dataTable"></div>
+</div>
+</body>
+</html>
