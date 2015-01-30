@@ -15,6 +15,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="main.js"></script>
 <script src="lib/js/jquery.columns.min.js"></script>
+<script src="lib/js/typeahead.bundle.js"></script>
 <script src="lib/js/mustache.min.js"></script>
   <meta charset="utf-8">
   <title>JS Bin</title>
@@ -28,17 +29,19 @@
     <option value="sell">Sell</option>
    </select>
    <p class="block">for</p>
-  <select multiple class="form-control" id="commodities">
-    <option value="chemicals">Chemicals</option>
-    <option value="dynamite">Dynamite</option>
+  <select  class="form-control" id="commodities">
+    
   </select>
   <p class="block">near</p>
-  <input id="location" placeholder="System/Station" class="form-control"><br>
-  <div style="float:left">Coords:</div><div class="coordsbox">
-  X: <input id="locationX" class="form-control coord">
-  Y: <input id="locationY" class="form-control coord">
-  Z: <input id="locationZ" class="form-control coord">
+  <div id="location">
+    <input id="namedlocation" placeholder="System/Station" class="form-control typeahead"><br>
+    <!--<div style="float:left">Coords:</div><div class="coordsbox">
+    X: <input id="locationX" class="form-control coord">
+    Y: <input id="locationY" class="form-control coord">
+    Z: <input id="locationZ" class="form-control coord">
+    </div>-->
   </div>
+  <div class="form-control" id="sumbit">Check</div>
 </div>
 <div id="dataView">
   <div id="dataTable"></div>
