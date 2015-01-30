@@ -84,14 +84,17 @@ ini_set('display_errors','On');
 		// age, station_name, price, supply,demand  
 		// if selling, sell_price, if buying, buy_price
 		foreach($results as $listing) {
-			$listForDisplay = array("age"=>$listing["age"],"station_name"=>$listing["station_name"]);
+			$listForDisplay = array();
+			$listForDisplay["Age"] = gmdate("H", $listing["age"])." Hours ago";
+			$listForDisplay["Station Name"]=$listing["station_name"];
 			if($buySell=="sell") {
-				$listForDisplay["price"] = $listing["sell_price"];
+				$listForDisplay["Price"] = $listing["sell_price"];
 			} else {
-				$listForDisplay["price"] = $listing["buy_price"];
+				$listForDisplay["Price"] = $listing["buy_price"];
 			}
-			$listForDisplay["supply"] = $listing["supply"];
-			$listForDisplay["demand"] = $listing["demand"];
+			if($listForDisplay["Price"]==0) continue;
+			$listForDisplay["Supply"] = $listing["supply"];
+			$listForDisplay["Demand"] = $listing["demand"];
 			$response[] = $listForDisplay;
 		}
 		
