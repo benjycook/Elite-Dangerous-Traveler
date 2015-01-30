@@ -3,10 +3,9 @@ Array.prototype.map = function(a) {for(var i in this) this[i]= a(this[i])}
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substrRegex;
- 
+    
     // an array that will be populated with substring matches
     matches = [];
- 
     // regex used to determine if a string contains the substring `q`
     substrRegex = new RegExp(q, 'i');
  
@@ -50,11 +49,11 @@ $(document).ready(function(){
         data.map(function(a){return a.name})
         var systems = data;
         console.log("systems in ",systems);
-
+        $("#namedlocation").prop('disabled', false);
         $('#location .typeahead').typeahead({
           hint: true,
           highlight: true,
-          minLength: 1
+          minLength: 2
         },
         {
           name: 'systems',
@@ -73,7 +72,8 @@ $(document).ready(function(){
             $("#dataTable").remove();
             $("#dataView").append('<div id="dataTable"></div>');
             $('#dataTable').columns({
-              data:json
+              data:json,
+              size:10000
             });
         })
     }
