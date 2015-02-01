@@ -19,6 +19,15 @@
     overflow-y: scroll;
 }
 
+@media screen and (max-width: 767px) {
+    #sidebarView {
+        width:100%;
+    }
+    #dataView {
+        width:100%;
+    }
+}
+
 .ui-table-size {
     display:none !important;
 }

@@ -68,12 +68,16 @@ $(document).ready(function(){
         params.commodity = $("#commodities").val()
         params.system = $("#namedlocation").val()
         params.command = "price_query";
+        var reversed = true;
+        if(params.buy_sell=="Sell") reversed = false
         getService(params,function(json){
             $("#dataTable").remove();
             $("#dataView").append('<div id="dataTable"></div>');
             $('#dataTable').columns({
               data:json,
-              size:10000
+              size:10000,
+              sortBy: "Price",
+              reverse: reversed
             });
         })
     }
