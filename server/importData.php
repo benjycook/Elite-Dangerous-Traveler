@@ -72,7 +72,7 @@
 	}
 	
 	function importCommodities() {
-		$commodities = json_decode(file_get_contents("commodities.json"),true);
+		$commodities = json_decode(file_get_contents("http://eddb.io/archive/commodities.json"),true);
 		$commodityCategories = array();
 		foreach($commodities as $commodity) {
 			addPossibleCategory($commodity["category"]);
@@ -85,7 +85,7 @@
 	
 	
 	function importSystems() {
-		$systems = json_decode(file_get_contents("systems.json"),true);
+		$systems = json_decode(file_get_contents("http://eddb.io/archive/systems.json"),true);
 		foreach($systems as $system) {
 			addSystem($system);
 		}
@@ -96,7 +96,7 @@
 	
 	
 	function importStations() {
-		$stationsStr = file_get_contents("stations.json");
+		$stationsStr = file_get_contents("http://eddb.io/archive/stations.json");
 	//	echo $stationsStr; exit();
 		$stations = json_decode($stationsStr,true);
                 foreach($stations as $station) {

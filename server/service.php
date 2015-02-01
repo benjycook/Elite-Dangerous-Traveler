@@ -70,9 +70,18 @@ ini_set('display_errors','On');
 		$buySell = $_GET["buy_sell"]; // see_prices, buy, sell
 		$commodityName = $_GET["commodity"];
 		$systemName = $_GET["system"];
+
+		// select 
 		
 	//	select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age,st.name as station_name,st.system_id,st.max_landing_pad_size,st.has_blackmarket,sy.name as system_name,(sqrt(pow(100-sy.x,2)+pow(100-sy.y,2)+pow(100-sy.z,2))) as distance from stations_listings as sl, stations as st, systems as sy, commodities as c where sl.commodity_id=c.id and st.id = sl.station_id and sy.id = st.system_id and c.name = "Hydrogen Fuel" order by age asc, sell_price desc, distance asc limit 100 offset 0
 		$query = "select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age, st.name as station_name, sy.name as system_name from commodities as c, stations_listings as sl, stations as st, systems as sy where c.name='".$commodityName."' and sl.commodity_id = c.id and st.system_id = sy.id and sy.name='".$systemName."' and st.id = sl.station_id limit 100;";
+		
+		$query = "select x,y,z from systems where name='".$systemName."'";
+		$result = dao::query($query);
+		$position = mysql_fetch_array($result, MYSQL_ASSOC);
+		//print_r($position);
+		
+		$query = "select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age, st.name as station_name, sy.name as system_name, sqrt(pow(sy.x-".$position["x"].",2)+pow(sy.y-".$position["y"].",2)+pow(sy.z-".$position["z"].",2)) as distance from commodities as c, stations_listings as sl, stations as st, systems as sy where c.name='".$commodityName."' and sl.commodity_id = c.id and st.system_id = sy.id and sqrt(pow(sy.x-".$position["x"].",2)+pow(sy.y-".$position["y"].",2)+pow(sy.z-".$position["z"].",2))<100 and st.id = sl.station_id order by distance limit 100";
 		$result = dao::query($query);
 		$results = array();
 
@@ -94,7 +103,8 @@ ini_set('display_errors','On');
 			}
 			if($listForDisplay["Price"]==0) continue;
 			$listForDisplay["Supply"] = $listing["supply"];
-			$listForDisplay["Demand"] = $listing["demand"];
+		//	$listForDisplay["Demand"] = $listing["demand"];
+			$listForDisplay["Distance"] = $listing["distance"];
 			$response[] = $listForDisplay;
 		}
 		
