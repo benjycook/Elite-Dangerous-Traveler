@@ -17,7 +17,7 @@ ini_set('display_errors','On');
                 mysql_select_db("eddb");
 	        $result = mysql_query($query);
 	        if (!$result) {
-	            //print_r(new Exception("mysql error " . mysql_errno() . ": " . mysql_error() . "\nOn query: " . $query));
+	            print_r(new Exception("mysql error " . mysql_errno() . ": " . mysql_error() . "\nOn query: " . $query));
 	        }
 	       // print_r($result."  ".$query."\n");
 	        return $result;
@@ -72,16 +72,17 @@ ini_set('display_errors','On');
 		$systemName = $_GET["system"];
 
 		// select 
-		
+		$commodityFilter = "";
+		if($commodityName!="None") {$commodityFilter = "c.name='".$commodityName."' and";}
 	//	select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age,st.name as station_name,st.system_id,st.max_landing_pad_size,st.has_blackmarket,sy.name as system_name,(sqrt(pow(100-sy.x,2)+pow(100-sy.y,2)+pow(100-sy.z,2))) as distance from stations_listings as sl, stations as st, systems as sy, commodities as c where sl.commodity_id=c.id and st.id = sl.station_id and sy.id = st.system_id and c.name = "Hydrogen Fuel" order by age asc, sell_price desc, distance asc limit 100 offset 0
-		$query = "select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age, st.name as station_name, sy.name as system_name from commodities as c, stations_listings as sl, stations as st, systems as sy where c.name='".$commodityName."' and sl.commodity_id = c.id and st.system_id = sy.id and sy.name='".$systemName."' and st.id = sl.station_id limit 100;";
+		$query = "select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age, st.name as station_name, sy.name as system_name from commodities as c, stations_listings as sl, stations as st, systems as sy where ".$commodityFilter." sl.commodity_id = c.id and st.system_id = sy.id and sy.name='".$systemName."' and st.id = sl.station_id limit 100;";
 		
 		$query = "select x,y,z from systems where name='".$systemName."'";
 		$result = dao::query($query);
 		$position = mysql_fetch_array($result, MYSQL_ASSOC);
 		//print_r($position);
 		
-		$query = "select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age, st.name as station_name, sy.name as system_name, sqrt(pow(sy.x-".$position["x"].",2)+pow(sy.y-".$position["y"].",2)+pow(sy.z-".$position["z"].",2)) as distance from commodities as c, stations_listings as sl, stations as st, systems as sy where c.name='".$commodityName."' and sl.commodity_id = c.id and st.system_id = sy.id and sqrt(pow(sy.x-".$position["x"].",2)+pow(sy.y-".$position["y"].",2)+pow(sy.z-".$position["z"].",2))<100 and st.id = sl.station_id order by distance limit 100";
+		$query = "select c.name, sl.supply, sl.buy_price, sl.sell_price, sl.demand, unix_timestamp()-sl.collected_at as age, st.name as station_name, sy.name as system_name, sqrt(pow(sy.x-".$position["x"].",2)+pow(sy.y-".$position["y"].",2)+pow(sy.z-".$position["z"].",2)) as distance from commodities as c, stations_listings as sl, stations as st, systems as sy where ".$commodityFilter." sl.commodity_id = c.id and st.system_id = sy.id and sqrt(pow(sy.x-".$position["x"].",2)+pow(sy.y-".$position["y"].",2)+pow(sy.z-".$position["z"].",2))<100 and st.id = sl.station_id order by distance limit 100";
 		$result = dao::query($query);
 		$results = array();
 
@@ -96,7 +97,6 @@ ini_set('display_errors','On');
 			$listForDisplay = array();
 			$listForDisplay["Age"] = gmdate("H", $listing["age"])." Hours ago";
 			$listForDisplay["Station Name"]=$listing["station_name"];
-			$listForDisplay["System"]=$listing["system_name"];
 			$listForDisplay["Commodity"] = $listing["name"];
 			if($buySell=="sell") {
 				$listForDisplay["Price"] = $listing["sell_price"];
