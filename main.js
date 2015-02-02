@@ -79,6 +79,10 @@ $(document).ready(function(){
               sortBy: "Price",
               reverse: reversed
             });
+            $("td:nth-of-type(3)").click(function(){
+                $("#namedlocation").val($(this).text())
+                refreshResults()
+            }).css("cursor","pointer").css("textDecoration","underline")
         })
     }
 
@@ -86,6 +90,13 @@ $(document).ready(function(){
         if(e.keyCode==13) refreshResults();
     })
 
+    $("#price_query").on('click',function(){
+        refreshResults();
+    })
+
+    $("select").on('change',function(){
+        refreshResults()
+    })
     
     
 })
