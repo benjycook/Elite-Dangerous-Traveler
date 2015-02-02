@@ -96,6 +96,7 @@ ini_set('display_errors','On');
 			$listForDisplay = array();
 			$listForDisplay["Age"] = gmdate("H", $listing["age"])." Hours ago";
 			$listForDisplay["Station Name"]=$listing["station_name"];
+			$listForDisplay["System"]=$listing["system_name"];
 			$listForDisplay["Commodity"] = $listing["name"];
 			if($buySell=="sell") {
 				$listForDisplay["Price"] = $listing["sell_price"];
