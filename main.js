@@ -76,9 +76,12 @@ $(document).ready(function(){
             $('#dataTable').columns({
               data:json,
               size:10000,
-              sortBy: "Price",
-              reverse: reversed
+              sortBy: "Distance"
             });
+            $("td:nth-of-type(3)").click(function(){
+                $("#namedlocation").val($(this).text())
+                refreshResults()
+            }).css("cursor","pointer").css("textDecoration","underline")
         })
     }
 
@@ -86,6 +89,13 @@ $(document).ready(function(){
         if(e.keyCode==13) refreshResults();
     })
 
+    $("#price_query").on('click',function(){
+        refreshResults();
+    })
+
+    $("select").on('change',function(){
+        refreshResults()
+    })
     
     
 })
