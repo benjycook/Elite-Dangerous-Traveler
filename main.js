@@ -76,8 +76,7 @@ $(document).ready(function(){
             $('#dataTable').columns({
               data:json,
               size:10000,
-              sortBy: "Price",
-              reverse: reversed
+              sortBy: "Distance"
             });
             $("td:nth-of-type(3)").click(function(){
                 $("#namedlocation").val($(this).text())
